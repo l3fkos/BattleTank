@@ -5,6 +5,6 @@ Following Ben Tristam's UE4 with C++ video game design tutorial.  We are creatin
 ***
 ## Lecture List<br>
 <ol>
-Intro
+  <li>Intro</li>
 </ol>
 
