@@ -2,30 +2,19 @@
 
 #include "Public/TankAimingComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
+#include "Public/TankBarrel.h"
 
-// Sets default values for this component's properties
+
 UTankAimingComponent::UTankAimingComponent(){
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
-
-// Called when the game starts
 void UTankAimingComponent::BeginPlay(){
 	Super::BeginPlay();
-
-	// ...
-	
 }
 
-// Called every frame
 void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction){
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
 }
 
 void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed){
@@ -47,11 +36,22 @@ void UTankAimingComponent::AimAt(FVector WorldSpaceAim, float LaunchSpeed){
 		ESuggestProjVelocityTraceOption::DoNotTrace))
 	{
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		UE_LOG(LogTemp, Warning, TEXT("Aiming at %s"), *AimDirection.ToString())
-
+		MoveBarrelTowards(AimDirection);
+	}
+	else{
+		auto time = GetWorld()->GetTimeSeconds();
+		UE_LOG(LogTemp, Warning, TEXT("%f No aim resolve found"), time)
 	}
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet){
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet){
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection){
+	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
+	auto AimAsRotator = AimDirection.Rotation();
+	auto DeltaRotator = AimAsRotator - BarrelRotator;
+	
+	Barrel->ElevateBarrel(DeltaRotator.Pitch);
 }
