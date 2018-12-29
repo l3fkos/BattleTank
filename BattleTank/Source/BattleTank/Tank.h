@@ -17,6 +17,8 @@ class BATTLETANK_API ATank : public APawn
 private:
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 100000;
+	
+	
 
 public:
 	// Sets default values for this pawn's properties
@@ -24,6 +26,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = SetUp)
 	void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = SetUp)
+	void SetTurretReference(UTankTurret* TurretToSet);
+
+	UFUNCTION(BlueprintCallable)
+	void Fire();
 
 protected:
 	// Called when the game starts or when spawned

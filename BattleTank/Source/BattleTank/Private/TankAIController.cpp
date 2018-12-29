@@ -10,10 +10,10 @@ void ATankAIController::BeginPlay(){
 	Super::BeginPlay();
 
 	auto PlayerTank = GetPlayerControlledTank();
-	//if (!PlayerTank) 
-		//UE_LOG(LogTemp, Warning, TEXT("Could not find player tank!"))
-	//else
-		//UE_LOG(LogTemp, Warning, TEXT("Player tank is: %s"), *PlayerTank->GetName())
+	if (!PlayerTank) 
+		UE_LOG(LogTemp, Warning, TEXT("Could not find player tank!"))
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Player tank is: %s"), *PlayerTank->GetName())
 }
 
 ATank* ATankAIController::GetPlayerControlledTank(){
